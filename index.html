@@ -777,8 +777,7 @@
             {
                 id: 15,
                 title: "Webinaire Psy_Coaching - Le syndrome de l'imposteur",
-                embedUrl: "https://vimeo.com/showcase/11236068/video/939092916/embed?
-                  embedUrl: "https://vimeo.com/showcase/11236068/video/939092916/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939092916/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
                 duration: "45min",
                 type: "webinaire",
                 description: "Paola Scemama explique le syndrome de l'imposteur et comment le surmonter.",
@@ -1320,7 +1319,7 @@
             ]
         };
 
-        // Fonction pour créer un élément de vidéo - MODIFIÉE
+        // Fonction pour créer un élément de vidéo
         function createVideoElement(video) {
             const tagsHtml = video.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
             
@@ -1339,7 +1338,11 @@
                     <div class="card-tags">
                         ${tagsHtml}
                     </div>
-                    <!-- Les pictos (card-actions) ont été retirés ici -->
+                    <div class="card-actions">
+                        <div class="action-btn">❤️</div>
+                        <div class="action-btn">⏱️</div>
+                        <div class="action-btn">📋</div>
+                    </div>
                 </div>
             </div>
             `;
@@ -1366,7 +1369,6 @@
                     <div class="card-tags">
                         ${tagsHtml}
                     </div>
-                    <div class="card-actions">
                     <div class="card-actions">
                         <div class="action-btn">❤️</div>
                         <div class="action-btn">⏱️</div>
