@@ -1,0 +1,2003 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fondation Florence</title>
+    <style>
+        /* Variables et réinitialisation CSS */
+        :root {
+            --primary-color: #2F80ED;
+            --secondary-color: #4F4F4F;
+            --background-color: #F9F9F9;
+            --light-gray: #E0E0E0;
+            --white: #FFFFFF;
+            --black: #333333;
+            --success: #27AE60;
+            --danger: #EB5757;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        
+        body {
+            background-color: var(--background-color);
+        }
+
+        /* Navigation principale */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--white);
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+        }
+        
+        .nav-main {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-main a {
+            text-decoration: none;
+            color: var(--secondary-color);
+            font-weight: 500;
+            padding: 0.5rem 0;
+        }
+        
+        .nav-main a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .user-profile img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+        }
+
+        /* Sous-navigation */
+        .sub-nav {
+            display: flex;
+            justify-content: center;
+            background-color: var(--white);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .sub-nav a {
+            padding: 0.5rem 1.5rem;
+            text-decoration: none;
+            color: var(--secondary-color);
+            margin: 0 1rem;
+        }
+        
+        .sub-nav a.active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        /* Conteneur principal */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+        
+        .section-description {
+            color: var(--secondary-color);
+            margin-bottom: 2rem;
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            font-size: 1rem;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--secondary-color);
+        }
+
+        /* Filtres */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-dropdown {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            background-color: var(--white);
+            min-width: 150px;
+            cursor: pointer;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            background-color: var(--white);
+            cursor: pointer;
+        }
+        
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        /* Grille de contenu */
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .content-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .card-media {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* Ratio 16:9 */
+        }
+        
+        .card-media iframe, .card-media .document-preview {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        .document-preview {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-gray);
+        }
+        
+        .document-preview img {
+            width: 40px;
+            opacity: 0.6;
+        }
+        
+        .card-info {
+            padding: 1rem;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+        
+        .card-meta {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+        }
+        
+        .card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .tag {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            color: var(--secondary-color);
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        
+        .action-btn {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            cursor: pointer;
+        }
+
+        /* Onglets Flo NU */
+        .tertiary-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+        
+        .tertiary-nav button {
+            padding: 0.7rem 1.5rem;
+            background-color: var(--white);
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        
+        .tertiary-nav button.active {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border-color: var(--primary-color);
+        }
+
+        /* Quiz */
+        .quiz-container {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .quiz-title {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            color: var(--black);
+        }
+        
+        .quiz-question {
+            margin-bottom: 2rem;
+        }
+        
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+        
+        .answer-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        
+        .answer-option {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 1rem;
+            border: 1px solid var(--light-gray);
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .answer-option.selected {
+            border-color: var(--primary-color);
+            background-color: rgba(47, 128, 237, 0.05);
+        }
+        
+        .answer-option.correct {
+            border-color: var(--success);
+            background-color: rgba(39, 174, 96, 0.05);
+        }
+        
+        .answer-option.incorrect {
+            border-color: var(--danger);
+            background-color: rgba(235, 87, 87, 0.05);
+        }
+        
+        .explanation {
+            background-color: rgba(47, 128, 237, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .quiz-actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .quiz-btn {
+            padding: 0.8rem 1.5rem;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+        
+        .quiz-btn:disabled {
+            background-color: var(--light-gray);
+            color: var(--secondary-color);
+            cursor: not-allowed;
+        }
+
+        /* Document Viewer */
+        .document-viewer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.8);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+        }
+        
+        .document-viewer.active {
+            display: flex;
+        }
+        
+        .viewer-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background-color: var(--white);
+        }
+        
+        .viewer-title {
+            font-weight: 500;
+        }
+        
+        .close-viewer {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        
+        .document-frame {
+            flex: 1;
+            border: none;
+        }
+
+        /* Entretiens blancs */
+        .booking-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .booking-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        .booking-title {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: var(--black);
+        }
+        
+        .booking-meta {
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .booking-btn {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 0;
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 4px;
+            text-align: center;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        /* Contenu caché par défaut */
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sous-navigation -->
+    <div class="sub-nav">
+        <a href="#" class="main-tab active" data-tab="videotheque">VIDÉOS</a>
+        <a href="#" class="main-tab" data-tab="training">TRAINING</a>
+        <a href="#" class="main-tab" data-tab="ressources">RESSOURCES</a>
+    </div>
+
+    <!-- Conteneur principal -->
+    <div class="main-container">
+        <!-- Vidéothèque -->
+        <div id="videotheque" class="tab-content active">
+            <h1 class="section-title">VIDÉOTHÈQUE</h1>
+            <p class="section-description">La vidéothèque regroupe l'ensemble des vidéos et des podcasts enregistrés lors des webinaires organisés par Florence.</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Rechercher dans la vidéothèque" id="video-search">
+                <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <select class="filter-dropdown" id="type-filter">
+                    <option value="">Types</option>
+                    <option value="webinaire">Webinaire</option>
+                    <option value="podcast">Podcast</option>
+                    <option value="interview">Interview</option>
+                </select>
+                <select class="filter-dropdown" id="duration-filter">
+                    <option value="">Durée</option>
+                    <option value="short">Moins de 30 min</option>
+                    <option value="medium">30 min - 1h</option>
+                    <option value="long">Plus d'1h</option>
+                </select>
+                <select class="filter-dropdown" id="tag-filter">
+                    <option value="">Tags</option>
+                    <option value="finance">Finance</option>
+                    <option value="droit">Droit</option>
+                    <option value="entrepreneuriat">Entrepreneuriat</option>
+                    <option value="conseil">Conseil</option>
+                    <option value="coaching">Coaching</option>
+                    <option value="rh">RH</option>
+                    <option value="politique">Politique</option>
+                    <option value="international">International</option>
+                </select>
+            </div>
+            
+            <div class="content-grid" id="videos-grid">
+                <!-- Les vidéos seront générées ici par JavaScript -->
+            </div>
+        </div>
+
+        <!-- Ressources entreprises -->
+        <div id="ressources" class="tab-content">
+            <h1 class="section-title">RESSOURCES</h1>
+            <p class="section-description">Cette section contient tous les documents essentiels au fonctionnement de la fondation Florence et à l'information des talents.</p>
+            
+            <div class="search-container">
+                <input type="text" class="search-input" placeholder="Rechercher dans les ressources" id="ressource-search">
+                <span class="search-icon">🔍</span>
+            </div>
+            
+            <div class="filters">
+                <button class="filter-btn active" data-filter="all">Tous</button>
+                <button class="filter-btn" data-filter="about">À propos de Florence</button>
+                <button class="filter-btn" data-filter="guides">Guides pratiques</button>
+                <button class="filter-btn" data-filter="partners">Entreprises partenaires</button>
+            </div>
+            
+            <div class="content-grid" id="ressources-grid">
+                <!-- Les ressources seront générées ici par JavaScript -->
+            </div>
+        </div>
+
+        <!-- Training (Flo NU) -->
+        <div id="training" class="tab-content">
+            <h1 class="section-title">TRAINING</h1>
+            <p class="section-description">La section training est dédiée à l'entraînement et à l'orientation des talents dans leurs domaines professionnels respectifs.</p>
+            
+            <div class="search-container">
+                <select class="filter-dropdown" style="width:100%" id="domain-select">
+                    <option value="">Sélectionner un domaine</option>
+                    <option value="droit">Droit</option>
+                    <option value="finance">Finance de Marché</option>
+                    <option value="consulting">Consulting</option>
+                </select>
+            </div>
+            
+            <div class="tertiary-nav">
+                <button class="tertiary-tab active" data-tab="revisions">Révisions</button>
+                <button class="tertiary-tab" data-tab="quiz">Quiz</button>
+                <button class="tertiary-tab" data-tab="cas">Cas pratiques</button>
+                <button class="tertiary-tab" data-tab="ressources-entretiens">Préparer son entretien</button>
+                <button class="tertiary-tab" data-tab="entretiens-blancs">Entretien blanc</button>
+            </div>
+            
+            <!-- Fiches de révision -->
+            <div id="revisions" class="tertiary-content active">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Rechercher dans les fiches de révision" id="revision-search">
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <div class="content-grid" id="revisions-grid">
+                    <!-- Les fiches de révision seront générées ici par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Quiz d'évaluation -->
+            <div id="quiz" class="tertiary-content" style="display:none">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Rechercher dans les quiz" id="quiz-search">
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <div id="quiz-list">
+                    <!-- Liste des quiz disponibles -->
+                    <div class="content-grid" id="quiz-grid">
+                        <!-- Les quiz seront générés ici par JavaScript -->
+                    </div>
+                </div>
+                
+                <!-- Contenu du quiz actif -->
+                <div id="active-quiz" style="display:none">
+                    <!-- Le quiz actif sera généré ici par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Cas pratiques -->
+            <div id="cas" class="tertiary-content" style="display:none">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Rechercher dans les cas pratiques" id="cas-search">
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <div class="content-grid" id="cas-grid">
+                    <!-- Les cas pratiques seront générés ici par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Ressources sur les entretiens -->
+            <div id="ressources-entretiens" class="tertiary-content" style="display:none">
+                <div class="search-container">
+                    <input type="text" class="search-input" placeholder="Rechercher dans les ressources sur les entretiens" id="entretien-search">
+                    <span class="search-icon">🔍</span>
+                </div>
+                
+                <div class="content-grid" id="entretien-grid">
+                    <!-- Les ressources sur les entretiens seront générées ici par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Entretiens blancs -->
+            <div id="entretiens-blancs" class="tertiary-content" style="display:none">
+                <div class="search-container">
+                    <select class="filter-dropdown" style="width:49%; display:inline-block" id="domain-booking">
+                        <option value="">Sélectionner un domaine</option>
+                        <option value="droit">Droit</option>
+                        <option value="finance">Finance de Marché</option>
+                        <option value="consulting">Consulting</option>
+                    </select>
+                    <select class="filter-dropdown" style="width:49%; display:inline-block" id="subdomain-booking">
+                        <option value="">Sélectionner un sous-domaine</option>
+                        <!-- Options chargées dynamiquement en fonction du domaine sélectionné -->
+                    </select>
+                </div>
+                
+                <div class="booking-container" id="booking-grid">
+                    <!-- Les disponibilités pour les entretiens blancs seront générées ici par JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Document Viewer -->
+    <div class="document-viewer">
+        <div class="viewer-header">
+            <div class="viewer-title">Document Title</div>
+            <div class="close-viewer">✕</div>
+        </div>
+        <iframe class="document-frame" src=""></iframe>
+    </div>
+
+    <script>
+        // Données des vidéos (simulées à partir des informations fournies)
+        const videosData = [
+            {
+                id: 1,
+                title: "Webinaire Fondation Florence — Fanny Letier",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/957592030/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h15min",
+                type: "webinaire",
+                description: "Fanny Letier partage son expérience et ses conseils sur l'entrepreneuriat et l'investissement.",
+                tags: ["entrepreneuriat", "finance", "conseil"]
+            },
+            {
+                id: 2,
+                title: "Webinaire Adrien Nussenbaum - Fondation Florence",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/953474850/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "55min",
+                type: "webinaire",
+                description: "Adrien Nussenbaum, co-fondateur de Mirakl, partage son parcours entrepreneurial.",
+                tags: ["entrepreneuriat", "tech", "international"]
+            },
+            {
+                id: 3,
+                title: "Webinaire Fondation Florence - François Paillier",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/942290993/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "45min",
+                type: "webinaire",
+                description: "François Paillier présente les défis et opportunités du secteur financier.",
+                tags: ["finance", "marché", "conseil"]
+            },
+            {
+                id: 4,
+                title: "Guerre en Ukraine 2022 - 2026",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/945813084/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h20min",
+                type: "webinaire",
+                description: "Analyse géopolitique du conflit en Ukraine et ses implications internationales.",
+                tags: ["international", "politique", "géopolitique"]
+            },
+            {
+                id: 5,
+                title: "Webinaire Fondation Florence - Marina Weiss",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/952018410/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "50min",
+                type: "webinaire",
+                description: "Marina Weiss présente les enjeux du secteur juridique et les opportunités de carrière.",
+                tags: ["droit", "carrière", "conseil"]
+            },
+            {
+                id: 6,
+                title: "Fondation Florence Webinaire _ Joel Palix",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939092592/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h05min",
+                type: "webinaire",
+                description: "Joel Palix partage son expérience dans le secteur du luxe et de la beauté.",
+                tags: ["marketing", "luxe", "international"]
+            },
+            {
+                id: 7,
+                title: "Webinaire Fondation Florence - François Baroin",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939105703/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h10min",
+                type: "webinaire",
+                description: "François Baroin aborde les questions politiques et économiques actuelles.",
+                tags: ["politique", "économie", "finance"]
+            },
+            {
+                id: 8,
+                title: "Webinaire Fondation Florence _ Laurence Boone",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939106430/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h",
+                type: "webinaire",
+                description: "Laurence Boone analyse les tendances économiques mondiales et européennes.",
+                tags: ["économie", "international", "finance"]
+            },
+            {
+                id: 9,
+                title: "Fondation Florence _ Webinaire Métier _ TS KPMG",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/924510338/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "45min",
+                type: "webinaire",
+                description: "Présentation des métiers et opportunités de carrière chez KPMG.",
+                tags: ["audit", "conseil", "finance"]
+            },
+            {
+                id: 10,
+                title: "Webinaire Fondation Florence _ Mme Maya Atig",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939092636/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "55min",
+                type: "webinaire",
+                description: "Maya Atig partage son expertise sur la régulation financière et bancaire.",
+                tags: ["finance", "banque", "régulation"]
+            },
+            {
+                id: 11,
+                title: "Webinaire Fondation Florence _ Mr Raoul Salomon",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939106593/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "50min",
+                type: "webinaire",
+                description: "Raoul Salomon présente les marchés financiers et les carrières dans la banque d'investissement.",
+                tags: ["finance", "marchés", "banque"]
+            },
+            {
+                id: 12,
+                title: "Webinaire metier _ Mr David Salabi - CAMBON PARTNERS",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/924510517/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h",
+                type: "webinaire",
+                description: "David Salabi présente le métier de banquier d'affaires et les fusions-acquisitions.",
+                tags: ["finance", "m&a", "conseil"]
+            },
+            {
+                id: 13,
+                title: "Webinaire Psy Coaching - Paola Scemama - La Communication",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939092290/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "40min",
+                type: "webinaire",
+                description: "Paola Scemama aborde les techniques de communication efficace en milieu professionnel.",
+                tags: ["coaching", "communication", "soft skills"]
+            },
+            {
+                id: 14,
+                title: "Webinaire RH - Albane Di Marco - Réussir son entretien",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/924510614/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "50min",
+                type: "webinaire",
+                description: "Conseils pratiques pour réussir ses entretiens d'embauche par Albane Di Marco.",
+                tags: ["rh", "entretien", "carrière"]
+            },
+            {
+                id: 15,
+                title: "Webinaire Psy_Coaching - Le syndrome de l'imposteur",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/939092916/embed?
+                  embedUrl: "https://vimeo.com/showcase/11236068/video/939092916/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "45min",
+                type: "webinaire",
+                description: "Paola Scemama explique le syndrome de l'imposteur et comment le surmonter.",
+                tags: ["coaching", "psychologie", "développement personnel"]
+            },
+            {
+                id: 16,
+                title: "Webinaire Paola Scemama — Neuropsychologue et coach",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/961291521/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "55min",
+                type: "webinaire",
+                description: "Approche neuropsychologique du développement professionnel et personnel.",
+                tags: ["coaching", "psychologie", "neurosciences"]
+            },
+            {
+                id: 17,
+                title: "Webinaire Fondation Florence Cédric Carles - Entrepreneuriat & Transition Energétique",
+                embedUrl: "https://vimeo.com/showcase/11236068/video/992029780/embed?hash=100338a5440cd6331f6c61e1b9159aefd6c0855b.1722959098",
+                duration: "1h10min",
+                type: "webinaire",
+                description: "Cédric Carles présente les opportunités d'entrepreneuriat dans la transition énergétique.",
+                tags: ["entrepreneuriat", "transition", "environnement"]
+            }
+        ];
+
+        // Données des ressources entreprises (simulées)
+        const ressourcesData = [
+            {
+                id: 1,
+                title: "Présentation de la Fondation Florence",
+                type: "document",
+                category: "about",
+                fileUrl: "https://example.com/documents/presentation-florence.pdf",
+                description: "Document de présentation de la Fondation Florence et de sa mission.",
+                tags: ["présentation", "mission", "fondation"]
+            },
+            {
+                id: 2,
+                title: "Guide du mentorat",
+                type: "document",
+                category: "guides",
+                fileUrl: "https://example.com/documents/guide-mentorat.pdf",
+                description: "Guide pratique pour les mentors et mentorés de la Fondation Florence.",
+                tags: ["mentorat", "guide", "accompagnement"]
+            },
+            {
+                id: 3,
+                title: "Partenariat KPMG",
+                type: "document",
+                category: "partners",
+                fileUrl: "https://example.com/documents/partenariat-kpmg.pdf",
+                description: "Présentation du partenariat avec KPMG et des opportunités offertes.",
+                tags: ["kpmg", "partenariat", "audit"]
+            },
+            {
+                id: 4,
+                title: "Partenariat Rothschild & Co",
+                type: "document",
+                category: "partners",
+                fileUrl: "https://example.com/documents/partenariat-rothschild.pdf",
+                description: "Présentation du partenariat avec Rothschild & Co et des opportunités offertes.",
+                tags: ["rothschild", "partenariat", "finance"]
+            },
+            {
+                id: 5,
+                title: "Guide d'utilisation de la plateforme",
+                type: "document",
+                category: "guides",
+                fileUrl: "https://example.com/documents/guide-plateforme.pdf",
+                description: "Guide d'utilisation de la plateforme Florence NU.",
+                tags: ["plateforme", "guide", "utilisation"]
+            },
+            {
+                id: 6,
+                title: "Histoire et valeurs de la Fondation",
+                type: "document",
+                category: "about",
+                fileUrl: "https://example.com/documents/histoire-valeurs.pdf",
+                description: "Présentation de l'histoire et des valeurs de la Fondation Florence.",
+                tags: ["histoire", "valeurs", "fondation"]
+            },
+            {
+                id: 7,
+                title: "Partenariat Lazard Frères",
+                type: "document",
+                category: "partners",
+                fileUrl: "https://example.com/documents/partenariat-lazard.pdf",
+                description: "Présentation du partenariat avec Lazard Frères et des opportunités offertes.",
+                tags: ["lazard", "partenariat", "finance"]
+            },
+            {
+                id: 8,
+                title: "Guide de préparation aux stages",
+                type: "document",
+                category: "guides",
+                fileUrl: "https://example.com/documents/guide-stages.pdf",
+                description: "Guide pratique pour préparer et réussir ses stages professionnels.",
+                tags: ["stages", "guide", "préparation"]
+            }
+        ];
+
+        // Données des fiches de révision (simulées)
+        const revisionsData = [
+            {
+                id: 1,
+                title: "Les fondamentaux du droit des sociétés",
+                type: "document",
+                domain: "droit",
+                fileUrl: "https://example.com/documents/fondamentaux-droit-societes.pdf",
+                duration: "20min",
+                description: "Fiche synthétique sur les fondamentaux du droit des sociétés.",
+                tags: ["droit", "sociétés", "fondamentaux"]
+            },
+            {
+                id: 2,
+                title: "Introduction aux produits dérivés",
+                type: "document",
+                domain: "finance",
+                fileUrl: "https://example.com/documents/produits-derives.pdf",
+                duration: "25min",
+                description: "Fiche de révision sur les produits dérivés et leur fonctionnement.",
+                tags: ["finance", "dérivés", "marchés"]
+            },
+            {
+                id: 3,
+                title: "Méthodologie de résolution de cas en consulting",
+                type: "document",
+                domain: "consulting",
+                fileUrl: "https://example.com/documents/methodologie-consulting.pdf",
+                duration: "30min",
+                description: "Méthodologie et framework pour résoudre des cas de consulting.",
+                tags: ["consulting", "méthodologie", "cas"]
+            },
+            {
+                id: 4,
+                title: "Les contrats commerciaux internationaux",
+                type: "document",
+                domain: "droit",
+                fileUrl: "https://example.com/documents/contrats-commerciaux.pdf",
+                duration: "25min",
+                description: "Fiche sur les spécificités des contrats commerciaux internationaux.",
+                tags: ["droit", "contrats", "international"]
+            },
+            {
+                id: 5,
+                title: "Analyse financière d'entreprise",
+                type: "document",
+                domain: "finance",
+                fileUrl: "https://example.com/documents/analyse-financiere.pdf",
+                duration: "35min",
+                description: "Méthodes d'analyse financière d'entreprise et ratios clés.",
+                tags: ["finance", "analyse", "ratios"]
+            },
+            {
+                id: 6,
+                title: "Framework d'analyse stratégique",
+                type: "document",
+                domain: "consulting",
+                fileUrl: "https://example.com/documents/framework-strategie.pdf",
+                duration: "20min",
+                description: "Présentation des principaux frameworks d'analyse stratégique.",
+                tags: ["consulting", "stratégie", "framework"]
+            }
+        ];
+
+        // Données des cas pratiques (simulées)
+        const casData = [
+            {
+                id: 1,
+                title: "Cas pratique - Restructuration d'entreprise",
+                type: "document",
+                domain: "droit",
+                fileUrl: "https://example.com/documents/cas-restructuration.pdf",
+                description: "Cas pratique sur une restructuration d'entreprise en difficulté.",
+                tags: ["droit", "restructuration", "entreprise"]
+            },
+            {
+                id: 2,
+                title: "Cas pratique - Valorisation d'entreprise",
+                type: "document",
+                domain: "finance",
+                fileUrl: "https://example.com/documents/cas-valorisation.pdf",
+                description: "Cas pratique sur les méthodes de valorisation d'entreprise.",
+                tags: ["finance", "valorisation", "m&a"]
+            },
+            {
+                id: 3,
+                title: "Cas pratique - Stratégie d'expansion internationale",
+                type: "document",
+                domain: "consulting",
+                fileUrl: "https://example.com/documents/cas-expansion.pdf",
+                description: "Cas pratique sur la stratégie d'expansion internationale d'une entreprise.",
+                tags: ["consulting", "stratégie", "international"]
+            },
+            {
+                id: 4,
+                title: "Cas pratique - Contentieux commercial",
+                type: "document",
+                domain: "droit",
+                fileUrl: "https://example.com/documents/cas-contentieux.pdf",
+                description: "Cas pratique sur un contentieux commercial international.",
+                tags: ["droit", "contentieux", "commercial"]
+            },
+            {
+                id: 5,
+                title: "Cas pratique - Introduction en bourse",
+                type: "document",
+                domain: "finance",
+                fileUrl: "https://example.com/documents/cas-ipo.pdf",
+                description: "Cas pratique sur le processus d'introduction en bourse d'une entreprise.",
+                tags: ["finance", "ipo", "marchés"]
+            },
+            {
+                id: 6,
+                title: "Cas pratique - Transformation digitale",
+                type: "document",
+                domain: "consulting",
+                fileUrl: "https://example.com/documents/cas-transformation.pdf",
+                description: "Cas pratique sur la transformation digitale d'une entreprise traditionnelle.",
+                tags: ["consulting", "digital", "transformation"]
+            }
+        ];
+
+        // Données des ressources entretiens (simulées)
+        const entretienData = [
+            {
+                id: 1,
+                title: "Guide d'entretien - Cabinets d'avocats d'affaires",
+                type: "document",
+                domain: "droit",
+                fileUrl: "https://example.com/documents/guide-entretien-avocats.pdf",
+                description: "Guide de préparation aux entretiens dans les cabinets d'avocats d'affaires.",
+                tags: ["droit", "entretien", "cabinet"]
+            },
+            {
+                id: 2,
+                title: "Guide d'entretien - Banques d'investissement",
+                type: "document",
+                domain: "finance",
+                fileUrl: "https://example.com/documents/guide-entretien-banques.pdf",
+                description: "Guide de préparation aux entretiens dans les banques d'investissement.",
+                tags: ["finance", "entretien", "banque"]
+            },
+            {
+                id: 3,
+                title: "Guide d'entretien - Cabinets de conseil en stratégie",
+                type: "document",
+                domain: "consulting",
+                fileUrl: "https://example.com/documents/guide-entretien-conseil.pdf",
+                description: "Guide de préparation aux entretiens dans les cabinets de conseil en stratégie.",
+                tags: ["consulting", "entretien", "stratégie"]
+            },
+            {
+                id: 4,
+                title: "Questions fréquentes - Entretiens juridiques",
+                type: "document",
+                domain: "droit",
+                fileUrl: "https://example.com/documents/questions-juridiques.pdf",
+                description: "Compilation des questions fréquemment posées lors des entretiens juridiques.",
+                tags: ["droit", "questions", "entretien"]
+            },
+            {
+                id: 5,
+                title: "Questions fréquentes - Entretiens finance",
+                type: "document",
+                domain: "finance",
+                fileUrl: "https://example.com/documents/questions-finance.pdf",
+                description: "Compilation des questions fréquemment posées lors des entretiens en finance.",
+                tags: ["finance", "questions", "entretien"]
+            },
+            {
+                id: 6,
+                title: "Questions fréquentes - Entretiens consulting",
+                type: "document",
+                domain: "consulting",
+                fileUrl: "https://example.com/documents/questions-consulting.pdf",
+                description: "Compilation des questions fréquemment posées lors des entretiens en consulting.",
+                tags: ["consulting", "questions", "entretien"]
+            }
+        ];
+
+        // Données des quiz (extraites des exemples fournis)
+        const quizData = [
+            {
+                id: 1,
+                title: "Quiz 1 - M&A (Fusions & Acquisitions)",
+                domain: "finance",
+                description: "Quiz sur les fusions et acquisitions dans la section Finance d'Entreprise",
+                tags: ["finance", "m&a", "entreprise"],
+                questions: [
+                    {
+                        question: "Quel est l'objectif principal d'une opération de fusion-acquisition ?",
+                        options: [
+                            "Réduire le capital de l'entreprise acheteuse",
+                            "Créer de la valeur en combinant les forces des entreprises fusionnées",
+                            "Limiter l'exposition aux marchés financiers"
+                        ],
+                        correctAnswer: 1,
+                        explanation: "L'objectif clé d'une fusion-acquisition est de générer de la valeur en réalisant des synergies (économies d'échelle, accès à de nouveaux marchés, optimisation des coûts, etc.). L'idée est que l'ensemble vaut plus que la somme des parties."
+                    },
+                    {
+                        question: "Quelle est la différence principale entre une fusion et une acquisition ?",
+                        options: [
+                            "Dans une fusion, les entreprises fusionnent en une seule entité, alors que dans une acquisition, l'une prend le contrôle de l'autre",
+                            "Une fusion implique forcément une transaction en cash, tandis qu'une acquisition utilise uniquement des actions",
+                            "Une fusion est toujours amicale, tandis qu'une acquisition est forcément hostile"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Une fusion consiste à combiner deux entreprises pour en former une nouvelle, tandis qu'une acquisition implique que l'une absorbe l'autre, qui peut disparaître ou rester une filiale. Une acquisition peut être amicale ou hostile, contrairement à une idée reçue."
+                    },
+                    {
+                        question: "Quelle méthode est la plus couramment utilisée pour valoriser une entreprise dans une opération de M&A ?",
+                        options: [
+                            "La méthode des flux de trésorerie actualisés (DCF - Discounted Cash Flow)",
+                            "L'analyse des coûts fixes et variables",
+                            "Le calcul du coût du capital propre"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "La méthode DCF consiste à estimer la valeur future des flux de trésorerie générés par l'entreprise et à les actualiser pour obtenir une valeur présente. C'est une approche robuste, bien que souvent complétée par d'autres méthodes (comparables boursiers, transactions similaires, etc.)."
+                    },
+                    {
+                        question: "Qu'est-ce qu'une synergie dans une opération de fusion-acquisition ?",
+                        options: [
+                            "Une hausse automatique du cours de bourse après l'opération",
+                            "Les économies de coûts ou gains de revenus générés par la combinaison des entreprises",
+                            "Une prime versée aux actionnaires de l'entreprise cible"
+                        ],
+                        correctAnswer: 1,
+                        explanation: "Les synergies sont les bénéfices attendus d'une fusion-acquisition, qu'ils soient financiers (réduction des coûts, économies d'échelle) ou stratégiques (accès à un nouveau marché, innovation commune, etc.). Elles justifient en grande partie le prix payé par l'acheteur."
+                    },
+                    {
+                        question: "Qu'est-ce qu'une offre publique d'achat (OPA) hostile ?",
+                        options: [
+                            "Une tentative de rachat contre la volonté du conseil d'administration de la cible",
+                            "Une fusion entre deux entreprises concurrentes",
+                            "Un rachat effectué sans emprunt bancaire"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Une OPA hostile est une offre de rachat faite directement aux actionnaires d'une entreprise sans l'accord de son conseil d'administration. Cela peut entraîner des résistances et des stratégies de défense comme le poison pill ou le white knight."
+                    }
+                ]
+            },
+            {
+                id: 2,
+                title: "Quiz 2 - M&A (Fusions & Acquisitions) avancé",
+                domain: "finance",
+                description: "Quiz avancé sur les fusions et acquisitions",
+                tags: ["finance", "m&a", "avancé"],
+                questions: [
+                    {
+                        question: "Quelle est la principale raison d'un rachat financé par effet de levier (LBO - Leveraged Buyout) ?",
+                        options: [
+                            "Maximiser la rentabilité pour les investisseurs en utilisant une forte part de dette",
+                            "Éviter de mobiliser trop de fonds propres pour un rachat",
+                            "Éviter toute dilution des actionnaires existants"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Un LBO repose sur l'idée que l'endettement permet d'augmenter le rendement pour les investisseurs. L'acquéreur finance le rachat principalement par dette, remboursée avec les futurs flux de trésorerie de la société cible."
+                    },
+                    {
+                        question: "Lors d'une acquisition, que signifie le terme \"earn-out\" ?",
+                        options: [
+                            "Une clause qui permet à l'entreprise cible d'acheter des actions de l'acheteur",
+                            "Un paiement conditionnel basé sur la performance future de l'entreprise cible",
+                            "Une option pour les actionnaires minoritaires de revendre leurs parts à l'acquéreur"
+                        ],
+                        correctAnswer: 1,
+                        explanation: "Un earn-out est un paiement différé et conditionnel que l'acquéreur verse au vendeur si la société atteint certains objectifs financiers ou stratégiques après la transaction. Cela permet de partager le risque entre acheteur et vendeur."
+                    },
+                    {
+                        question: "Quelle est la principale méthode de défense contre une OPA hostile ?",
+                        options: [
+                            "Le \"poison pill\", qui consiste à rendre l'acquisition plus coûteuse pour l'attaquant",
+                            "Un rachat massif des actions par le management",
+                            "La réduction volontaire du cours de l'action"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Le poison pill est une tactique anti-OPA où la société cible émet de nouvelles actions ou modifie sa structure pour rendre l'acquisition prohibitive pour l'acheteur hostile. D'autres stratégies incluent le white knight (recherche d'un acheteur amical)."
+                    }
+                ]
+            },
+            {
+                id: 3,
+                title: "Quiz 3 - Consulting & Stratégie",
+                domain: "consulting",
+                description: "Quiz sur les fondamentaux du conseil en stratégie",
+                tags: ["consulting", "stratégie", "fondamentaux"],
+                questions: [
+                    {
+                        question: "Quelle est la principale mission d'un consultant en stratégie ?",
+                        options: [
+                            "Aider les entreprises à améliorer leur compétitivité et leur rentabilité grâce à des recommandations stratégiques",
+                            "Gérer la comptabilité et le reporting financier des entreprises",
+                            "Accompagner les sociétés dans l'implémentation de logiciels ERP"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Un consultant en stratégie analyse les défis d'une entreprise et propose des solutions pour améliorer sa position concurrentielle (croissance, digitalisation, réduction des coûts, diversification, etc.)."
+                    },
+                    {
+                        question: "Quelle méthodologie est la plus souvent utilisée en consulting pour structurer une analyse stratégique ?",
+                        options: [
+                            "L'approche MECE (Mutually Exclusive, Collectively Exhaustive)",
+                            "La théorie des jeux appliquée aux fusions-acquisitions",
+                            "L'analyse des écarts de bilan comptable"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Le MECE est un principe fondamental du conseil en stratégie, où les catégories d'analyse doivent être mutuellement exclusives (aucun chevauchement) et collectivement exhaustives (pas d'oubli de cas possibles)."
+                    },
+                    {
+                        question: "Dans une étude de marché, quel est l'objectif principal d'une analyse SWOT ?",
+                        options: [
+                            "Identifier les forces, faiblesses, opportunités et menaces d'une entreprise",
+                            "Comparer la rentabilité de l'entreprise avec celle de ses concurrents",
+                            "Évaluer la satisfaction des employés par rapport à la gouvernance"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "L'analyse SWOT (Strengths, Weaknesses, Opportunities, Threats) est un outil essentiel en consulting pour comprendre la position stratégique d'une entreprise face à son marché et ses concurrents."
+                    }
+                ]
+            },
+            {
+                id: 4,
+                title: "Quiz 4 - Consulting & Stratégie avancé",
+                domain: "consulting",
+                description: "Quiz avancé sur le conseil en stratégie et les entretiens",
+                tags: ["consulting", "entretien", "cas"],
+                questions: [
+                    {
+                        question: "Quelle est la structure typique d'un entretien de conseil en stratégie ?",
+                        options: [
+                            "Présentation du candidat, étude de cas, questions-réponses avec le recruteur",
+                            "Test psychométrique, rédaction d'un mémoire, présentation orale",
+                            "Étude approfondie du CV et mise en situation opérationnelle"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Les entretiens en conseil en stratégie suivent généralement un format standard : 1. Présentation rapide du candidat, 2. Étude de cas où il doit résoudre un problème stratégique, 3. Q&A avec le recruteur sur ses motivations et son parcours."
+                    },
+                    {
+                        question: "Quelle technique est souvent utilisée pour résoudre une étude de cas en consulting ?",
+                        options: [
+                            "La segmentation du problème en plusieurs hypothèses testables",
+                            "La recherche des meilleures réponses sur Google",
+                            "L'improvisation en fonction de l'intuition du consultant"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Les consultants apprennent à segmenter un problème complexe en plusieurs éléments analytiques et tester des hypothèses logiques avant de formuler une recommandation. Cette méthode est essentielle dans les études de cas."
+                    },
+                    {
+                        question: "Quelle est la différence entre un consultant en stratégie et un consultant en management ?",
+                        options: [
+                            "Le consultant en stratégie se concentre sur les décisions long terme, tandis que le consultant en management travaille sur l'optimisation des opérations au quotidien",
+                            "Il n'y a aucune différence entre les deux",
+                            "Le consultant en management travaille uniquement avec des PME, tandis que le consultant en stratégie ne conseille que des multinationales"
+                        ],
+                        correctAnswer: 0,
+                        explanation: "Le consulting en stratégie concerne les grandes décisions stratégiques (croissance, acquisition, entrée sur un marché), tandis que le consulting en management traite l'amélioration des processus opérationnels et organisationnels au sein de l'entreprise."
+                    }
+                ]
+            }
+        ];
+
+        // Données des entretiens blancs (simulées)
+        const bookingData = [
+            {
+                id: 1,
+                title: "Entretien Droit des affaires",
+                domain: "droit",
+                subdomain: "affaires",
+                mentor: "Me Jean Dupont",
+                date: "15/03/2025",
+                slots: ["10:00", "14:00", "16:30"]
+            },
+            {
+                id: 2,
+                title: "Entretien Droit social",
+                domain: "droit",
+                subdomain: "social",
+                mentor: "Me Sophie Martin",
+                date: "18/03/2025",
+                slots: ["11:00", "15:30"]
+            },
+            {
+                id: 3,
+                title: "Entretien Finance de marché - Trading",
+                domain: "finance",
+                subdomain: "trading",
+                mentor: "Thomas Leclerc",
+                date: "16/03/2025",
+                slots: ["09:30", "13:00", "17:00"]
+            },
+            {
+                id: 4,
+                title: "Entretien Finance de marché - M&A",
+                domain: "finance",
+                subdomain: "m&a",
+                mentor: "Laura Blanc",
+                date: "19/03/2025",
+                slots: ["10:30", "14:30"]
+            },
+            {
+                id: 5,
+                title: "Entretien Consulting - Stratégie",
+                domain: "consulting",
+                subdomain: "strategie",
+                mentor: "Paul Dubois",
+                date: "17/03/2025",
+                slots: ["09:00", "13:30", "16:00"]
+            },
+            {
+                id: 6,
+                title: "Entretien Consulting - Opérations",
+                domain: "consulting",
+                subdomain: "operations",
+                mentor: "Marie Petit",
+                date: "20/03/2025",
+                slots: ["11:30", "15:00"]
+            }
+        ];
+
+        // Dictionnaire des sous-domaines par domaine
+        const subdomains = {
+            "droit": [
+                { value: "affaires", label: "Droit des affaires" },
+                { value: "social", label: "Droit social" },
+                { value: "fiscal", label: "Droit fiscal" },
+                { value: "propriete", label: "Propriété intellectuelle" }
+            ],
+            "finance": [
+                { value: "trading", label: "Trading" },
+                { value: "m&a", label: "Fusions & Acquisitions" },
+                { value: "investment", label: "Investment Banking" },
+                { value: "asset", label: "Asset Management" }
+            ],
+            "consulting": [
+                { value: "strategie", label: "Stratégie" },
+                { value: "operations", label: "Opérations" },
+                { value: "digital", label: "Transformation digitale" },
+                { value: "finance", label: "Finance" }
+            ]
+        };
+
+        // Fonction pour créer un élément de vidéo - MODIFIÉE
+        function createVideoElement(video) {
+            const tagsHtml = video.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            
+            return `
+            <div class="content-card" data-type="${video.type}" data-tags="${video.tags.join(',')}">
+                <div class="card-media">
+                    <iframe src="${video.embedUrl}" scrolling="no" allowfullscreen></iframe>
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">${video.title}</h3>
+                    <div class="card-meta">
+                        <span>Durée: ${video.duration}</span>
+                        <span>Type: ${video.type}</span>
+                    </div>
+                    <p>${video.description}</p>
+                    <div class="card-tags">
+                        ${tagsHtml}
+                    </div>
+                    <!-- Les pictos (card-actions) ont été retirés ici -->
+                </div>
+            </div>
+            `;
+        }
+
+        // Fonction pour créer un élément de document
+        function createDocumentElement(doc) {
+            const tagsHtml = doc.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            const durationHtml = doc.duration ? `<span>Durée de lecture: ${doc.duration}</span>` : '';
+            const domainHtml = doc.domain ? `<span>Domaine: ${doc.domain}</span>` : '';
+            
+            return `
+            <div class="content-card" data-type="${doc.type}" data-category="${doc.category || ''}" data-domain="${doc.domain || ''}" data-tags="${doc.tags.join(',')}">
+                <div class="card-media document-preview" data-url="${doc.fileUrl}">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0RjRGNEYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTQgMkg2YTIgMiAwIDAgMC0yIDJ2MTZhMiAyIDAgMCAwIDIgMmgxMmEyIDIgMCAwIDAgMi0yVjh6Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTQgMiAxNCA4IDIwIDgiPjwvcG9seWxpbmU+PC9zdmc+" alt="Document">
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">${doc.title}</h3>
+                    <div class="card-meta">
+                        ${durationHtml}
+                        ${domainHtml}
+                    </div>
+                    <p>${doc.description}</p>
+                    <div class="card-tags">
+                        ${tagsHtml}
+                    </div>
+                    <div class="card-actions">
+                    <div class="card-actions">
+                        <div class="action-btn">❤️</div>
+                        <div class="action-btn">⏱️</div>
+                        <div class="action-btn">📋</div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        // Fonction pour créer un élément de quiz
+        function createQuizElement(quiz) {
+            const tagsHtml = quiz.tags.map(tag => `<span class="tag">${tag}</span>`).join('');
+            
+            return `
+            <div class="content-card" data-domain="${quiz.domain}" data-tags="${quiz.tags.join(',')}">
+                <div class="card-media document-preview" data-quiz-id="${quiz.id}">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM0RjRGNEYiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMCI+PC9jaXJjbGU+PHBhdGggZD0iTTkuMDkgOSBhMyAzIDAgMCAxIDUuODMgMWMwIDItMyAzLTMgM20wIDR2LjAxIj48L3BhdGg+PC9zdmc+" alt="Quiz">
+                </div>
+                <div class="card-info">
+                    <h3 class="card-title">${quiz.title}</h3>
+                    <div class="card-meta">
+                        <span>Domaine: ${quiz.domain}</span>
+                        <span>Questions: ${quiz.questions.length}</span>
+                    </div>
+                    <p>${quiz.description}</p>
+                    <div class="card-tags">
+                        ${tagsHtml}
+                    </div>
+                    <div class="card-actions">
+                        <div class="action-btn">❤️</div>
+                        <div class="action-btn">⏱️</div>
+                        <div class="action-btn">📋</div>
+                    </div>
+                </div>
+            </div>
+            `;
+        }
+
+        // Fonction pour créer un élément de réservation d'entretien
+        function createBookingElement(booking) {
+            const slotsHtml = booking.slots.map(slot => `
+                <a href="#" class="booking-btn" data-booking-id="${booking.id}" data-slot="${slot}">Réserver à ${slot}</a>
+            `).join('');
+            
+            return `
+            <div class="booking-card" data-domain="${booking.domain}" data-subdomain="${booking.subdomain}">
+                <h3 class="booking-title">${booking.title}</h3>
+                <div class="booking-meta">
+                    <p>Mentor: ${booking.mentor}</p>
+                    <p>Date: ${booking.date}</p>
+                </div>
+                <p>Choisissez un créneau horaire:</p>
+                ${slotsHtml}
+            </div>
+            `;
+        }
+
+        // Fonction pour générer un quiz actif
+        function generateActiveQuiz(quizId) {
+            const quiz = quizData.find(q => q.id === quizId);
+            if (!quiz) return '';
+            
+            let questionsHtml = '';
+            quiz.questions.forEach((q, index) => {
+                let optionsHtml = '';
+                q.options.forEach((option, optIndex) => {
+                    optionsHtml += `
+                    <div class="answer-option" data-index="${optIndex}">
+                        <input type="radio" name="question-${index}" id="q${index}-opt${optIndex}">
+                        <label for="q${index}-opt${optIndex}">${option}</label>
+                    </div>
+                    `;
+                });
+                
+                questionsHtml += `
+                <div class="quiz-question" data-correct="${q.correctAnswer}">
+                    <p class="question-text"><strong>Question ${index + 1}:</strong> ${q.question}</p>
+                    <div class="answer-options">
+                        ${optionsHtml}
+                    </div>
+                    <div class="explanation" style="display:none;">
+                        <p><strong>Explication:</strong> ${q.explanation}</p>
+                    </div>
+                </div>
+                `;
+            });
+            
+            return `
+            <div class="quiz-container">
+                <h2 class="quiz-title">${quiz.title}</h2>
+                <div class="quiz-questions">
+                    ${questionsHtml}
+                </div>
+                <div class="quiz-actions">
+                    <button class="quiz-btn" id="back-to-quizzes">Retour aux quiz</button>
+                    <button class="quiz-btn" id="validate-quiz">Valider les réponses</button>
+                </div>
+            </div>
+            `;
+        }
+
+        // Fonction pour initialiser la vidéothèque
+        function initVideotheque() {
+            const videosGrid = document.getElementById('videos-grid');
+            videosGrid.innerHTML = '';
+            
+            videosData.forEach(video => {
+                videosGrid.innerHTML += createVideoElement(video);
+            });
+        }
+
+        // Fonction pour initialiser les ressources
+        function initRessources() {
+            const ressourcesGrid = document.getElementById('ressources-grid');
+            ressourcesGrid.innerHTML = '';
+            
+            ressourcesData.forEach(doc => {
+                ressourcesGrid.innerHTML += createDocumentElement(doc);
+            });
+        }
+
+        // Fonction pour initialiser les fiches de révision
+        function initRevisions() {
+            const revisionsGrid = document.getElementById('revisions-grid');
+            revisionsGrid.innerHTML = '';
+            
+            revisionsData.forEach(doc => {
+                revisionsGrid.innerHTML += createDocumentElement(doc);
+            });
+        }
+
+        // Fonction pour initialiser les cas pratiques
+        function initCas() {
+            const casGrid = document.getElementById('cas-grid');
+            casGrid.innerHTML = '';
+            
+            casData.forEach(doc => {
+                casGrid.innerHTML += createDocumentElement(doc);
+            });
+        }
+
+        // Fonction pour initialiser les ressources sur les entretiens
+        function initEntretienRessources() {
+            const entretienGrid = document.getElementById('entretien-grid');
+            entretienGrid.innerHTML = '';
+            
+            entretienData.forEach(doc => {
+                entretienGrid.innerHTML += createDocumentElement(doc);
+            });
+        }
+
+        // Fonction pour initialiser les quiz
+        function initQuiz() {
+            const quizGrid = document.getElementById('quiz-grid');
+            quizGrid.innerHTML = '';
+            
+            quizData.forEach(quiz => {
+                quizGrid.innerHTML += createQuizElement(quiz);
+            });
+        }
+
+        // Fonction pour initialiser les entretiens blancs
+        function initEntretiensBlancs() {
+            const bookingGrid = document.getElementById('booking-grid');
+            bookingGrid.innerHTML = '';
+            
+            bookingData.forEach(booking => {
+                bookingGrid.innerHTML += createBookingElement(booking);
+            });
+        }
+
+        // Fonction pour mettre à jour les sous-domaines en fonction du domaine sélectionné
+        function updateSubdomains() {
+            const domainSelect = document.getElementById('domain-booking');
+            const subdomainSelect = document.getElementById('subdomain-booking');
+            const selectedDomain = domainSelect.value;
+            
+            subdomainSelect.innerHTML = '<option value="">Sélectionner un sous-domaine</option>';
+            
+            if (selectedDomain && subdomains[selectedDomain]) {
+                subdomains[selectedDomain].forEach(sub => {
+                    subdomainSelect.innerHTML += `<option value="${sub.value}">${sub.label}</option>`;
+                });
+            }
+        }
+
+        // Fonction pour filtrer les vidéos
+        function filterVideos() {
+            const searchTerm = document.getElementById('video-search').value.toLowerCase();
+            const typeFilter = document.getElementById('type-filter').value;
+            const durationFilter = document.getElementById('duration-filter').value;
+            const tagFilter = document.getElementById('tag-filter').value;
+            
+            const videos = document.querySelectorAll('#videos-grid .content-card');
+            
+            videos.forEach(video => {
+                const title = video.querySelector('.card-title').textContent.toLowerCase();
+                const description = video.querySelector('p').textContent.toLowerCase();
+                const videoType = video.getAttribute('data-type');
+                const tags = video.getAttribute('data-tags').split(',');
+                
+                // Vérifier la correspondance avec la recherche
+                const matchesSearch = !searchTerm || 
+                                     title.includes(searchTerm) || 
+                                     description.includes(searchTerm) || 
+                                     tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                // Vérifier la correspondance avec le type
+                const matchesType = !typeFilter || videoType === typeFilter;
+                
+                // Vérifier la correspondance avec le tag
+                const matchesTag = !tagFilter || tags.includes(tagFilter);
+                
+                // Vérifier la correspondance avec la durée (simulation)
+                const matchesDuration = !durationFilter || true; // À compléter avec la logique de durée
+                
+                // Afficher ou masquer la vidéo
+                if (matchesSearch && matchesType && matchesTag && matchesDuration) {
+                    video.style.display = 'block';
+                } else {
+                    video.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour filtrer les ressources
+        function filterRessources() {
+            const searchTerm = document.getElementById('ressource-search').value.toLowerCase();
+            const categoryFilter = document.querySelector('#ressources .filters .filter-btn.active').getAttribute('data-filter');
+            
+            const resources = document.querySelectorAll('#ressources-grid .content-card');
+            
+            resources.forEach(resource => {
+                const title = resource.querySelector('.card-title').textContent.toLowerCase();
+                const description = resource.querySelector('p').textContent.toLowerCase();
+                const category = resource.getAttribute('data-category');
+                const tags = resource.getAttribute('data-tags').split(',');
+                
+                // Vérifier la correspondance avec la recherche
+                const matchesSearch = !searchTerm || 
+                                     title.includes(searchTerm) || 
+                                     description.includes(searchTerm) || 
+                                     tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                // Vérifier la correspondance avec la catégorie
+                const matchesCategory = categoryFilter === 'all' || category === categoryFilter;
+                
+                // Afficher ou masquer la ressource
+                if (matchesSearch && matchesCategory) {
+                    resource.style.display = 'block';
+                } else {
+                    resource.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour filtrer les fiches de révision
+        function filterRevisions() {
+            const searchTerm = document.getElementById('revision-search').value.toLowerCase();
+            const domainFilter = document.getElementById('domain-select').value;
+            
+            const revisions = document.querySelectorAll('#revisions-grid .content-card');
+            
+            revisions.forEach(revision => {
+                const title = revision.querySelector('.card-title').textContent.toLowerCase();
+                const description = revision.querySelector('p').textContent.toLowerCase();
+                const domain = revision.getAttribute('data-domain');
+                const tags = revision.getAttribute('data-tags').split(',');
+                
+                // Vérifier la correspondance avec la recherche
+                const matchesSearch = !searchTerm || 
+                                     title.includes(searchTerm) || 
+                                     description.includes(searchTerm) || 
+                                     tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                // Vérifier la correspondance avec le domaine
+                const matchesDomain = !domainFilter || domain === domainFilter;
+                
+                // Afficher ou masquer la fiche
+                if (matchesSearch && matchesDomain) {
+                    revision.style.display = 'block';
+                } else {
+                    revision.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour filtrer les quiz
+        function filterQuizzes() {
+            const searchTerm = document.getElementById('quiz-search').value.toLowerCase();
+            const domainFilter = document.getElementById('domain-select').value;
+            
+            const quizzes = document.querySelectorAll('#quiz-grid .content-card');
+            
+            quizzes.forEach(quiz => {
+                const title = quiz.querySelector('.card-title').textContent.toLowerCase();
+                const description = quiz.querySelector('p').textContent.toLowerCase();
+                const domain = quiz.getAttribute('data-domain');
+                const tags = quiz.getAttribute('data-tags').split(',');
+                
+                // Vérifier la correspondance avec la recherche
+                const matchesSearch = !searchTerm || 
+                                     title.includes(searchTerm) || 
+                                     description.includes(searchTerm) || 
+                                     tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                // Vérifier la correspondance avec le domaine
+                const matchesDomain = !domainFilter || domain === domainFilter;
+                
+                // Afficher ou masquer le quiz
+                if (matchesSearch && matchesDomain) {
+                    quiz.style.display = 'block';
+                } else {
+                    quiz.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour filtrer les cas pratiques
+        function filterCas() {
+            const searchTerm = document.getElementById('cas-search').value.toLowerCase();
+            const domainFilter = document.getElementById('domain-select').value;
+            
+            const casPratiques = document.querySelectorAll('#cas-grid .content-card');
+            
+            casPratiques.forEach(cas => {
+                const title = cas.querySelector('.card-title').textContent.toLowerCase();
+                const description = cas.querySelector('p').textContent.toLowerCase();
+                const domain = cas.getAttribute('data-domain');
+                const tags = cas.getAttribute('data-tags').split(',');
+                
+                // Vérifier la correspondance avec la recherche
+                const matchesSearch = !searchTerm || 
+                                     title.includes(searchTerm) || 
+                                     description.includes(searchTerm) || 
+                                     tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                // Vérifier la correspondance avec le domaine
+                const matchesDomain = !domainFilter || domain === domainFilter;
+                
+                // Afficher ou masquer le cas
+                if (matchesSearch && matchesDomain) {
+                    cas.style.display = 'block';
+                } else {
+                    cas.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour filtrer les ressources d'entretien
+        function filterEntretienRessources() {
+            const searchTerm = document.getElementById('entretien-search').value.toLowerCase();
+            const domainFilter = document.getElementById('domain-select').value;
+            
+            const ressources = document.querySelectorAll('#entretien-grid .content-card');
+            
+            ressources.forEach(ressource => {
+                const title = ressource.querySelector('.card-title').textContent.toLowerCase();
+                const description = ressource.querySelector('p').textContent.toLowerCase();
+                const domain = ressource.getAttribute('data-domain');
+                const tags = ressource.getAttribute('data-tags').split(',');
+                
+                // Vérifier la correspondance avec la recherche
+                const matchesSearch = !searchTerm || 
+                                     title.includes(searchTerm) || 
+                                     description.includes(searchTerm) || 
+                                     tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                
+                // Vérifier la correspondance avec le domaine
+                const matchesDomain = !domainFilter || domain === domainFilter;
+                
+                // Afficher ou masquer la ressource
+                if (matchesSearch && matchesDomain) {
+                    ressource.style.display = 'block';
+                } else {
+                    ressource.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour filtrer les entretiens blancs
+        function filterEntretiensBlancs() {
+            const domainFilter = document.getElementById('domain-booking').value;
+            const subdomainFilter = document.getElementById('subdomain-booking').value;
+            
+            const bookings = document.querySelectorAll('#booking-grid .booking-card');
+            
+            bookings.forEach(booking => {
+                const domain = booking.getAttribute('data-domain');
+                const subdomain = booking.getAttribute('data-subdomain');
+                
+                // Vérifier la correspondance avec le domaine
+                const matchesDomain = !domainFilter || domain === domainFilter;
+                
+                // Vérifier la correspondance avec le sous-domaine
+                const matchesSubdomain = !subdomainFilter || subdomain === subdomainFilter;
+                
+                // Afficher ou masquer l'entretien
+                if (matchesDomain && matchesSubdomain) {
+                    booking.style.display = 'block';
+                } else {
+                    booking.style.display = 'none';
+                }
+            });
+        }
+
+        // Fonction pour initialiser tous les éléments
+        function initAll() {
+            initVideotheque();
+            initRessources();
+            initRevisions();
+            initCas();
+            initEntretienRessources();
+            initQuiz();
+            initEntretiensBlancs();
+            
+            // Attacher les événements
+            attachEvents();
+        }
+
+        // Fonction pour attacher les événements
+        function attachEvents() {
+            // Navigation principale
+            document.querySelectorAll('.main-tab').forEach(tab => {
+                tab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Mettre à jour les onglets actifs
+                    document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Afficher le contenu correspondant
+                    const tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Navigation tertiaire (Flo NU)
+            document.querySelectorAll('.tertiary-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Mettre à jour les onglets actifs
+                    document.querySelectorAll('.tertiary-tab').forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Afficher le contenu correspondant
+                    const tabId = this.getAttribute('data-tab');
+                    document.querySelectorAll('.tertiary-content').forEach(content => content.style.display = 'none');
+                    document.getElementById(tabId).style.display = 'block';
+                });
+            });
+            
+            // Filtres vidéothèque
+            document.getElementById('video-search').addEventListener('input', filterVideos);
+            document.getElementById('type-filter').addEventListener('change', filterVideos);
+            document.getElementById('duration-filter').addEventListener('change', filterVideos);
+            document.getElementById('tag-filter').addEventListener('change', filterVideos);
+            
+            // Filtres ressources
+            document.getElementById('ressource-search').addEventListener('input', filterRessources);
+            document.querySelectorAll('#ressources .filters .filter-btn').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('#ressources .filters .filter-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    filterRessources();
+                });
+            });
+            
+            // Filtres fiches de révision
+            document.getElementById('revision-search').addEventListener('input', filterRevisions);
+            document.getElementById('domain-select').addEventListener('change', function() {
+                filterRevisions();
+                filterQuizzes();
+                filterCas();
+                filterEntretienRessources();
+            });
+            
+            // Filtres quiz
+            document.getElementById('quiz-search').addEventListener('input', filterQuizzes);
+            
+            // Filtres cas pratiques
+            document.getElementById('cas-search').addEventListener('input', filterCas);
+            
+            // Filtres ressources entretiens
+            document.getElementById('entretien-search').addEventListener('input', filterEntretienRessources);
+            
+            // Filtres entretiens blancs
+            document.getElementById('domain-booking').addEventListener('change', function() {
+                updateSubdomains();
+                filterEntretiensBlancs();
+            });
+            document.getElementById('subdomain-booking').addEventListener('change', filterEntretiensBlancs);
+            
+            // Prévisualisation des documents
+            document.addEventListener('click', function(e) {
+                if (e.target.closest('.document-preview')) {
+                    const preview = e.target.closest('.document-preview');
+                    
+                    // Vérifier s'il s'agit d'un quiz
+                    if (preview.hasAttribute('data-quiz-id')) {
+                        const quizId = parseInt(preview.getAttribute('data-quiz-id'));
+                        document.getElementById('quiz-list').style.display = 'none';
+                        document.getElementById('active-quiz').style.display = 'block';
+                        document.getElementById('active-quiz').innerHTML = generateActiveQuiz(quizId);
+                        
+                        // Attacher les événements du quiz
+                        document.getElementById('back-to-quizzes').addEventListener('click', function() {
+                            document.getElementById('quiz-list').style.display = 'block';
+                            document.getElementById('active-quiz').style.display = 'none';
+                        });
+                        
+                        document.getElementById('validate-quiz').addEventListener('click', function() {
+                            validateQuiz();
+                        });
+                        
+                        // Attacher les événements de sélection des réponses
+                        document.querySelectorAll('.answer-option').forEach(option => {
+                            option.addEventListener('click', function() {
+                                const question = this.closest('.quiz-question');
+                                question.querySelectorAll('.answer-option').forEach(opt => opt.classList.remove('selected'));
+                                this.classList.add('selected');
+                            });
+                        });
+                    } else {
+                        // Ouvrir la visionneuse de document
+                        const fileUrl = preview.getAttribute('data-url');
+                        const title = preview.closest('.content-card').querySelector('.card-title').textContent;
+                        
+                        document.querySelector('.document-viewer .viewer-title').textContent = title;
+                        document.querySelector('.document-frame').src = fileUrl;
+                        document.querySelector('.document-viewer').classList.add('active');
+                    }
+                }
+            });
+            
+            // Fermer la visionneuse de document
+            document.querySelector('.close-viewer').addEventListener('click', function() {
+                document.querySelector('.document-viewer').classList.remove('active');
+                document.querySelector('.document-frame').src = '';
+            });
+            
+            // Validation du quiz
+            document.addEventListener('click', function(e) {
+                if (e.target.id === 'validate-quiz') {
+                    validateQuiz();
+                }
+            });
+            
+            // Réservation d'entretien
+            document.addEventListener('click', function(e) {
+                if (e.target.classList.contains('booking-btn')) {
+                    e.preventDefault();
+                    const bookingId = e.target.getAttribute('data-booking-id');
+                    const slot = e.target.getAttribute('data-slot');
+                    alert(`Entretien réservé avec succès pour le créneau de ${slot}. Un email de confirmation vous sera envoyé.`);
+                    e.target.textContent = 'Réservé';
+                    e.target.classList.add('disabled');
+                    e.target.disabled = true;
+                }
+            });
+        }
+        
+        // Fonction pour valider un quiz
+        function validateQuiz() {
+            const questions = document.querySelectorAll('.quiz-question');
+            let score = 0;
+            
+            questions.forEach(question => {
+                const correctIndex = parseInt(question.getAttribute('data-correct'));
+                const selectedOption = question.querySelector('.answer-option.selected');
+                
+                // Réinitialiser les classes
+                question.querySelectorAll('.answer-option').forEach(option => {
+                    option.classList.remove('correct', 'incorrect');
+                });
+                
+                // Marquer la bonne réponse
+                question.querySelectorAll('.answer-option')[correctIndex].classList.add('correct');
+                
+                // Vérifier si une réponse a été sélectionnée et si elle est correcte
+                if (selectedOption) {
+                    const selectedIndex = parseInt(selectedOption.getAttribute('data-index'));
+                    
+                    if (selectedIndex === correctIndex) {
+                        score++;
+                    } else {
+                        selectedOption.classList.add('incorrect');
+                    }
+                }
+                
+                // Afficher l'explication
+                question.querySelector('.explanation').style.display = 'block';
+            });
+            
+            // Calculer le pourcentage
+            const percentage = Math.round((score / questions.length) * 100);
+            
+            // Ajouter le résultat
+            let feedback = '';
+            if (percentage >= 80) {
+                feedback = 'Excellent ! Vous maîtrisez bien le sujet.';
+            } else if (percentage >= 60) {
+                feedback = 'Bon travail ! Quelques révisions supplémentaires seraient bénéfiques.';
+            } else {
+                feedback = 'Des révisions sont nécessaires pour mieux comprendre ce sujet.';
+            }
+            
+            const resultHtml = `
+            <div class="quiz-result" style="margin-top: 2rem; padding: 1rem; background-color: #F5F5F5; border-radius: 4px;">
+                <h3>Résultat: ${score}/${questions.length} (${percentage}%)</h3>
+                <p>${feedback}</p>
+            </div>
+            `;
+            
+            // Ajouter le résultat au quiz
+            if (!document.querySelector('.quiz-result')) {
+                document.querySelector('.quiz-questions').insertAdjacentHTML('afterend', resultHtml);
+            } else {
+                document.querySelector('.quiz-result').outerHTML = resultHtml;
+            }
+            
+            // Désactiver le bouton de validation
+            document.getElementById('validate-quiz').disabled = true;
+        }
+        
+        // Initialiser tout au chargement de la page
+        document.addEventListener('DOMContentLoaded', function() {
+            initAll();
+        });
+    </script>
+</body>
+</html>
